@@ -86,3 +86,32 @@ header {
     background-color: #a1a1a1;
     transition-duration: 0.5s;
 }
+
+
+#question-holder {
+    padding: 2rem;
+    margin: 2rem 0;
+    height: 20rem;
+    min-height: 20rem;
+}
+
+#question {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+#answers {
+    display: grid;
+    grid-auto-flow: row;
+    grid-row-gap: 1rem;
+    margin-top: 2rem;
+    font-weight: 500;
+}
+
+.choice {
+    cursor: pointer;
+}

@@ -5,6 +5,8 @@ progressBarsContainer.innerHTML = "";
 
 var jsonData = JSON.parse(localStorage.getItem('jsonData'));
 var selectedOption = JSON.parse(localStorage.getItem('selectedOption'));
+var selectedNumQuest = parseInt(JSON.parse(localStorage.getItem('selectedNumQuest')));
+var questions = [];
 
 if (jsonData) {
     const questions = jsonData["Questions"];
@@ -13,8 +15,6 @@ if (jsonData) {
     const numberOfProgressSections = questionKeys.length;
 
     const progressSectionWidth = `${100 / numberOfProgressSections}%`;
-
-    console.log(progressSectionWidth);
 
     questionKeys.forEach(key => {
         const progressSection = document.createElement("div");
@@ -34,12 +34,63 @@ if (selectedOption == "immediate") {
     document.getElementById("validate").style.display = "block";
 }
 
-function returnhome() {
-    window.location.href = "../index.html";
+selectQuestions();
+
+displayQuestion();
+
+function selectQuestions() {
+    while (questions.length < selectedNumQuest) {
+        const randomQuestionNumber = Math.floor(Math.random() * Object.keys(jsonData.Questions).length) + 1;
+        if (!questions.includes(randomQuestionNumber.toString())) {
+            questions.push(randomQuestionNumber.toString());
+        }
+    }
+}
+
+function displayQuestion() {
+    document.getElementById("answers").innerHTML = '';
+
+    console.log(questions);
+    document.getElementById("question").innerText = jsonData["Questions"][questions[0]]["Q"];
+    console.log(jsonData["Questions"][questions[0]]["Choices"]);
+    const choices = jsonData["Questions"][questions[0]]["Choices"];
+    const choicesKeys = Object.keys(jsonData["Questions"][questions[0]]["Choices"]);
+    for (const choice of choicesKeys) {
+        const choiceValue = choices[choice];
+        const questionChoice = document.createElement("input");
+        questionChoice.type = (choicesKeys.length >= 2 ? "checkbox" : "radio");
+        questionChoice.classList.add(choicesKeys.length >= 2 ? "check" : "");
+        questionChoice.classList.add("choice");
+        questionChoice.value = choice;
+
+        // Créer un label autour de l'input
+        const label = document.createElement("label");
+        label.textContent = choiceValue;
+        label.classList.add("choice");
+        label.insertBefore(questionChoice, label.firstChild);
+        document.getElementById("answers").appendChild(label);
+    }
+}
+
+var checks = document.querySelectorAll(".check");
+var maxChecks = jsonData["Questions"][questions[0]]["Answer"].length;
+
+for (var i = 0; i < checks.length; i++) {
+    checks[i].onclick = selectiveCheck;
+}
+
+function selectiveCheck (event) {
+    var checkedChecks = document.querySelectorAll(".check:checked");
+    if (checkedChecks.length >= maxChecks + 1)
+        return false;
 }
 
 
 
-function displayQuestion() {
 
+
+
+
+function returnhome() {
+    window.location.href = "../index.html";
 }

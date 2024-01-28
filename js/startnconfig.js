@@ -4,6 +4,8 @@ var selectedOption = "select";
 var selectedNumQuest = "select";
 var error;
 
+document.getElementsByName("number-questions-select")[0].innerHTML = "<option value='select' selected='selected'>- Sélectionner -</option>";
+
 const dropArea = document.getElementById('drop-area');
 
 // Drop JSON file //
@@ -90,6 +92,7 @@ function uploadFile(file) {
             document.getElementById("drop-error").style.display = "none";
             error = 0;
         }
+        createNumberQuestions();
         canStart();
     };
 
@@ -98,6 +101,22 @@ function uploadFile(file) {
     };
 }
 
+
+function createNumberQuestions() {
+    if (Object.keys(jsonData["Questions"]).length > 5) {
+        for (let number = 10; number < Object.keys(jsonData["Questions"]).length;) {
+            const questionNumberOption = document.createElement("option");
+            questionNumberOption.value = number;
+            questionNumberOption.text = number;
+            document.getElementsByName("number-questions-select")[0].appendChild(questionNumberOption)
+            number+=10;
+        }
+        const questionNumberOption = document.createElement("option");
+        questionNumberOption.value = Object.keys(jsonData["Questions"]).length;
+        questionNumberOption.text = "Toutes (" + Object.keys(jsonData["Questions"]).length + ")";
+        document.getElementsByName("number-questions-select")[0].appendChild(questionNumberOption)
+    }
+}
 
 
 // Start //
@@ -123,26 +142,16 @@ function canStart() {
         if (selectedOption == "select") {
             document.getElementById("start").classList.add("disabled");
         } else {
-            if (Object.keys(jsonData["Questions"]).length > 5) {
-                for (let number = 10; number < Object.keys(jsonData["Questions"]).length;) {
-                    const questionNumberOption = document.createElement("option");
-                    questionNumberOption.value = number;
-                    questionNumberOption.text = number;
-                    document.getElementsByName("number-questions-select")[0].appendChild(questionNumberOption)
-                    number+=10;
-                }
-                const questionNumberOption = document.createElement("option");
-                questionNumberOption.value = "all";
-                questionNumberOption.text = "Toutes";
-                document.getElementsByName("number-questions-select")[0].appendChild(questionNumberOption)
+            if (Object.keys(jsonData["Questions"]).length > 20) {
                 document.getElementById("number-questions").style.display = "block";
+                if (selectedNumQuest != "select") {
+                    document.getElementById("start").classList.remove("disabled");
+                } else {
+                    document.getElementById("start").classList.add("disabled");
+                }
             } else {
+                selectedNumQuest = Object.keys(jsonData["Questions"]).length;
                 document.getElementById("start").classList.remove("disabled");
-            }
-            if (selectedNumQuest != "select") {
-                document.getElementById("start").classList.remove("disabled");
-            } else {
-                document.getElementById("start").classList.add("disabled");
             }
         }
     }
@@ -154,5 +163,6 @@ document.getElementById("start").addEventListener('click', startGame, false);
 function startGame() {
     localStorage.setItem('jsonData', JSON.stringify(jsonData));
     localStorage.setItem('selectedOption', JSON.stringify(selectedOption));
+    localStorage.setItem('selectedNumQuest', JSON.stringify(selectedNumQuest));
     window.location.href = "./page/question.html";
 }
