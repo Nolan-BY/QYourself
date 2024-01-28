@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='./assets/lineawsome-1.3.0/css/line-awesome.min.css'>
+    <link rel='stylesheet' href='./css/main.css'>
+    <link rel='stylesheet' href='./css/buttons.css'>
+    <link rel='stylesheet' href='./css/home.css'>
+    <title>QYourself</title>
+</head>
+<body>
+    <div id="title">
+        <img id="logo" src='./assets/images/logo.png' alt='Logo' loading='lazy'>
+        <h1>Bienvenue sur QYourself !</h1>
+        <p>L'application de Quiz personnalisés</p>
+    </div>
+
+    <div id="conf-start">
+        <div id="drop-area">
+            <p id="file-select-title">Glissez un fichier JSON ici</p>
+        </div>
+        <p id="drop-error">Seuls les fichiers JSON au bon format sont acceptés !</p>
+        
+        <div id="start-buttons" class="selector">
+            <div id="game-category">
+                <label class="form-input-title" for="form-category">Catégorie de jeu <span class="form-required-field" title="Champ requis">*</span></label>
+                <select class="form-component form-select" name="category" aria-required="1" required>
+                    <option value="select" selected="selected">- Sélectionner -</option>
+                    <option value="immediate">Résultat Immédiat</option>
+                    <option value="real">Test réel</option>
+                </select>
+            </div>
+            <div id="number-questions" class="selector">
+                <label class="form-input-title" for="form-category">Nombre de questions <span class="form-required-field" title="Champ requis">*</span></label>
+                <select class="form-component form-select" name="number-questions-select" aria-required="1" required>
+                    <option value="select" selected="selected">- Sélectionner -</option>
+                </select>
+            </div>
+            
+            <div id="start" class="button form-component disabled">Démarrer</div>
+        </div>
+
+        <script src="./js/startnconfig.js"></script>
+    </div>
+
+    <footer>
+        <p id="version">Version 1.0.0 - Janvier 2024</p>
+        <p id="copyright">Copyright <script>document.write(new Date().getFullYear());</script> | Nolan Ben Yahya</p>
+    </footer>
+</body>
+</html>

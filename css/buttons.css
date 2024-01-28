@@ -1,0 +1,58 @@
+
+.form-component {
+    margin-top: 0.5rem;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    appearance: none;
+    --moz-appearance: none;
+    --webkit-appearance: none;
+    border-radius: 0.25rem 0.25rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.5rem) 50%;
+    background-size: 1.5rem 1.5rem;
+    font-family: "Montserrat";
+    font-weight: 500;
+    background-color: rgb(235, 235, 235);
+    box-shadow: inset 0 -0.15rem 0 0 #202020;
+}
+
+.form-select {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    cursor: pointer;
+    min-width: 15rem;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 24 24' ><path fill='%231e1e1e' d='M12,13.1l5-4.9l1.4,1.4L12,15.9L5.6,9.5l1.4-1.4L12,13.1z'/></svg>");
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.button {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    cursor: pointer;
+    height: fit-content;
+    display: flex;
+    align-self: end;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    background-color: #47c95e;
+    transition-duration: 0.5s;
+}
+
+
+.form-required-field {
+    color: rgb(184, 0, 0);
+    font-weight: 600;
+}
+
+.form-input-title {
+    font-weight: 500;
+}

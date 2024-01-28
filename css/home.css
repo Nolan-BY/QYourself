@@ -1,0 +1,76 @@
+#title {
+    display: grid;
+    grid-auto-flow: row;
+    justify-self: center;
+    justify-items: center;
+    text-align: center;
+    height: fit-content;
+    margin-top: 5rem;
+}
+
+#logo {
+    width: 10rem;
+    margin-bottom: 2rem;
+}
+
+#conf-start {
+    display: grid;
+    grid-auto-flow: row;
+    margin-top: 2rem;
+    text-align: center;
+    justify-self: center;
+    justify-items: center;
+    height: fit-content;
+}
+
+#drop-area {
+    width: 20rem;
+    height: fit-content;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2rem;
+    cursor: pointer;
+}
+
+#drop-area p {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #333;
+}
+
+.highlight {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+#drop-error {
+    color: red;
+    margin-top: 1rem;
+    font-weight: 600;
+    display: none;
+}
+
+#start-buttons {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 2rem;
+    margin-top: 4rem;
+
+}
+
+
+.selector {
+    text-align: left;
+}
+
+#number-questions {
+    display: none;
+}
+
+#json-format-error {
+    color: red;
+    font-size: 2rem;
+    font-weight: 600;
+    display: none;
+}

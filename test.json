@@ -1,0 +1,135 @@
+{
+    "Questions": {
+        "Q1": {
+            "Q": "What is the IPv6 address used by OSPFv3 non-DR/BDR routers to send link-state updates and link-state acknowledgments?",
+            "C1": "FF02::2",
+            "C2": "FF02::5",
+            "C3": "FF02::6",
+            "C4": "FF02::9",
+            "Answer": ["C3"],
+            "Expl": "Non-DR/BDR routers send an update or link-state acknowledgment message to the DR and BDR by using the AllDRouters address FF02::6."
+        },
+        "Q2": {
+            "Q": "What are two reasons for creating an OSPE network with multiple areas? (Choose two.)",
+            "C1": "to ensure that an area is used to connect the network to the Internet",
+            "C2": "to provide areas in the network for routers that are not running OSPF",
+            "C3": "to reduce use of memory and processor resources",
+            "C4": "to simplify configuration",
+            "C5": "to reduce SPF calculations",
+            "Answer": ["C3", "C5"],
+            "Expl": ""
+        },
+        "question4": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question5": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question6": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question7": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question8": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question9": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question10": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question11": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question12": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question13": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question14": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question15": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question16": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question17": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question18": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        },
+        "question19": {
+            "Q": "Question 3",
+            "C1": "Choice 1",
+            "C2": "Choice 2",
+            "Answer": "C1",
+            "Expl": "Explanation 3"
+        }
+    }
+}
