@@ -3,6 +3,10 @@ var jsonData;
 var selectedOption = "select";
 var selectedNumQuest = "select";
 var error;
+var questions = [];
+var questionNumber = 0;
+var points = 0;
+var answersList = [];
 
 document.getElementsByName("number-questions-select")[0].innerHTML = "<option value='select' selected='selected'>- Sélectionner -</option>";
 
@@ -157,12 +161,25 @@ function canStart() {
     }
 }
 
+function selectQuestions() {
+    while (questions.length < selectedNumQuest) {
+        const randomQuestionNumber = Math.floor(Math.random() * Object.keys(jsonData.Questions).length) + 1;
+        if (!questions.includes(randomQuestionNumber.toString())) {
+            questions.push(randomQuestionNumber.toString());
+        }
+    }
+}
 
 document.getElementById("start").addEventListener('click', startGame, false);
 
 function startGame() {
+    selectQuestions();
     localStorage.setItem('jsonData', JSON.stringify(jsonData));
     localStorage.setItem('selectedOption', JSON.stringify(selectedOption));
     localStorage.setItem('selectedNumQuest', JSON.stringify(selectedNumQuest));
+    localStorage.setItem('questions', JSON.stringify(questions));
+    localStorage.setItem('points', JSON.stringify(points));
+    localStorage.setItem('questionNumber', JSON.stringify(questionNumber));
+    localStorage.setItem('answersList', JSON.stringify(answersList));
     window.location.href = "./page/question.html";
 }

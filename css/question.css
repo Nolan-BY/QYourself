@@ -114,4 +114,21 @@ input[type="checkbox"] {
 
 .choice {
     cursor: pointer;
+    width: fit-content;
+}
+
+
+
+#explanation {
+    margin-top: 2rem;
+    max-width: 50rem;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1d39b3;
+    background-color: #0011ff50;
+    border: solid 0.2rem #1d39b3;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: none;
 }
