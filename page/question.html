@@ -30,14 +30,18 @@
     </header>
 
     <section id="question-holder">
-        <p id="question"></p>
-        <div id="answers"></div>
-        <div id="explanation"></div>
+        <p class="question"></p>
+        <div class="answers"></div>
+        <div class="explanation"></div>
+    </section>
+
+    <section id="results-holder">
+        <p id="result-percentage"></p>
     </section>
 
 
     <div id="nav-buttons">
-        <div id="home" class="form-component button">Accueil</div>
+        <div id="home" class="form-component button" onclick="returnhome()">Accueil</div>
         <div id="next-validate">
             <div id="validate" class="form-component button disabled">Valider</div>
             <div id="next" class="form-component button disabled">Suivant</div>

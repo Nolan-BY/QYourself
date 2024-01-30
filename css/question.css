@@ -37,9 +37,10 @@ header {
 }
 
 #progress-bar-progress {
-    width: 59%;
+    width: 0%;
     height: inherit;
     background-color: #3aa74e;
+    transition-duration: 0.5s;
 }
 
 #progress-bars {
@@ -95,7 +96,7 @@ header {
     min-height: 20rem;
 }
 
-#question {
+.question {
     font-size: 1.1rem;
     font-weight: 600;
 }
@@ -104,7 +105,7 @@ input[type="checkbox"] {
     margin-right: 0.5rem;
 }
 
-#answers {
+.answers {
     display: grid;
     grid-auto-flow: row;
     grid-row-gap: 1rem;
@@ -119,7 +120,7 @@ input[type="checkbox"] {
 
 
 
-#explanation {
+.explanation {
     margin-top: 2rem;
     max-width: 50rem;
     padding: 1rem;
@@ -131,4 +132,26 @@ input[type="checkbox"] {
     border-radius: 0.5rem;
     overflow: hidden;
     display: none;
+}
+
+
+#results-holder {
+    display: grid;
+    grid-auto-flow: row;
+    padding: 2rem;
+}
+
+.question-result {
+    border-bottom: solid black 0.2rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+#result-percentage {
+    font-weight: 650;
+    font-size: 1.3rem;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
 }

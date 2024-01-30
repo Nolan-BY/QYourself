@@ -16,22 +16,27 @@ if (jsonData) {
     const questions = jsonData["Questions"];
     const questionKeys = Object.keys(questions);
 
-    const numberOfProgressSections = questionKeys.length;
+    if (selectedNumQuest < 20 ) {
+        const numberOfProgressSections = questionKeys.length;
 
-    const progressSectionWidth = `${100 / numberOfProgressSections}%`;
+        const progressSectionWidth = `${100 / numberOfProgressSections}%`;
 
-    var secNumber = 0;
+        var secNumber = 0;
 
-    questionKeys.forEach(key => {
-        const progressSection = document.createElement("div");
-        progressSection.classList.add("progress-section");
-        progressSection.style.width = progressSectionWidth;
-        progressSection.dataset.value = secNumber;
-        // Vous pouvez ajouter d'autres propriétés ou du contenu à chaque section de progression si nécessaire
-        // progressSection.textContent = key; // par exemple, utiliser la clé comme texte
-        progressBarsContainer.appendChild(progressSection);
-        secNumber+=1;
-    });
+        questionKeys.forEach(key => {
+            const progressSection = document.createElement("div");
+            progressSection.classList.add("progress-section");
+            progressSection.style.width = progressSectionWidth;
+            progressSection.dataset.value = secNumber;
+            // Vous pouvez ajouter d'autres propriétés ou du contenu à chaque section de progression si nécessaire
+            // progressSection.textContent = key; // par exemple, utiliser la clé comme texte
+            progressBarsContainer.appendChild(progressSection);
+            secNumber+=1;
+        });
+    } else {
+        document.getElementById("progress-bars").style.display = "none";
+        document.getElementById("progress-bar").style.display = "block";
+    }
 } else {
     // La clé "Questions" est absente dans jsonData ou est vide, vous pouvez gérer cela ici
     console.log("La clé 'Questions' est absente ou vide dans le fichier JSON.");
@@ -44,16 +49,22 @@ if (selectedOption == "immediate") {
 displayQuestion();
 
 function displayQuestion() {
-    document.getElementById("answers").innerHTML = '';
+    document.getElementsByClassName("answers")[0].innerHTML = '';
 
-    document.getElementById("question").innerText = jsonData["Questions"][questions[questionNumber]]["Q"];
+    document.getElementById("progress-bar-progress").style.width = (((questionNumber+1)*100)/selectedNumQuest) + "%";
+
+    document.getElementsByClassName("question")[0].innerText = jsonData["Questions"][questions[questionNumber]]["Q"];
     const choices = jsonData["Questions"][questions[questionNumber]]["Choices"];
     const choicesKeys = Object.keys(jsonData["Questions"][questions[questionNumber]]["Choices"]);
+    const answersNumber = jsonData["Questions"][questions[questionNumber]]["Answer"].length;
     for (const choice of choicesKeys) {
         const choiceValue = choices[choice];
         const questionChoice = document.createElement("input");
-        questionChoice.type = (choicesKeys.length >= 2 ? "checkbox" : "radio");
-        questionChoice.classList.add(choicesKeys.length >= 2 ? "check" : "");
+        questionChoice.type = (answersNumber >= 2) ? "checkbox" : "radio";
+        if (questionChoice.type == "radio") {
+            questionChoice.name = "radiochoice";
+        }
+        (answersNumber >= 2 ? questionChoice.classList.add("check") : "");
         questionChoice.classList.add("choice");
         questionChoice.value = choice;
 
@@ -62,7 +73,7 @@ function displayQuestion() {
         label.textContent = choiceValue;
         label.classList.add("choice");
         label.insertBefore(questionChoice, label.firstChild);
-        document.getElementById("answers").appendChild(label);
+        document.getElementsByClassName("answers")[0].appendChild(label);
     }
 
     var checks = document.querySelectorAll(".check");
@@ -77,8 +88,17 @@ function displayQuestion() {
     choiceInputs.forEach(input => {
         input.addEventListener('click', function() {
             var checkedChecks = document.querySelectorAll(".check:checked");
-            if (checkedChecks.length < maxChecks + 1) {
-                this.classList.toggle('selected');
+            if (this.type === 'radio') {
+                choiceInputs.forEach(input => {
+                    input.classList.remove('selected');
+                });
+
+                this.classList.add('selected');
+            } else if (this.type === 'checkbox') {
+                var checkedChecks = document.querySelectorAll(".check:checked");
+                if (checkedChecks.length < maxChecks + 1) {
+                    this.classList.toggle('selected');
+                }
             }
             const selectedInputs = document.querySelectorAll('input.choice.selected');
             if (selectedInputs.length < maxChecks) {
@@ -97,41 +117,20 @@ function displayQuestion() {
         });
     });
 
-    document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "#2b2b2b";
+    if (document.getElementById('progress-bars').style.display != "none") {
+        document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "#2b2b2b";
+    }
 
     const answerList = jsonData["Questions"][questions[questionNumber]]["Answer"];
     const explanation = jsonData["Questions"][questions[questionNumber]]["Expl"];
     const validate = document.getElementById('validate');
 
     validate.addEventListener('click', function() {
-        const choiceInputs = document.querySelectorAll('input.choice');
-        pointsGained = 1;
-        choiceInputs.forEach(input => {
-            input.disabled = true;
-            const isSelected = input.classList.contains('selected');
-            const isAnswer = answerList.includes(input.value);
-            if (selectedOption == "immediate") {
-                if (isAnswer) {
-                    input.parentElement.style.color = "green";
-                    input.parentElement.style.fontWeight = "650";
-                } else if (isSelected) {
-                    input.parentElement.style.color = "red";
-                    pointsGained-=1;
-                }
-            }
-            points += pointsGained;
-            if (selectedOption === "immediate") {
-                if (pointsGained == 1) {
-                    document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "green";
-                } else {
-                    document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "red";
-                }
-            }
-        });
+        validateAnswers();
 
-        if (selectedOption == "immediate") {
-            document.getElementById("explanation").innerHTML = "<b>Explication : </b>" + explanation;
-            document.getElementById("explanation").style.display = "block";
+        if (selectedOption == "immediate" && explanation != "") {
+            document.getElementsByClassName("explanation")[0].innerHTML = "<b>Explication : </b>" + explanation;
+            document.getElementsByClassName("explanation")[0].style.display = "block";
         }
 
         document.getElementById("validate").classList.add("disabled");
@@ -149,28 +148,65 @@ function displayQuestion() {
 
     next.addEventListener('click', function() {
         if (selectedOption == "real") {
+            validateAnswers();
             logAnswer();
         }
         if (questionNumber+1 == questions.length) {
-            if (selectedOption == "real") {
+            if (selectedOption == "real" && document.getElementById('progress-bars').style.display != "none") {
                 document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "blue";
             }
-            document.getElementById("explanation").style.display = "none";
+            document.getElementsByClassName("explanation")[0].style.display = "none";
             document.getElementById("next").classList.add("disabled");
             displayResults();
         } else {
-            if (selectedOption == "real") {
+            if (selectedOption == "real" && document.getElementById('progress-bars').style.display != "none") {
                 document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "blue";
             }
             questionNumber += 1;
             localStorage.setItem('questionNumber', JSON.stringify(questionNumber));
-            document.getElementById("explanation").style.display = "none";
+            document.getElementsByClassName("explanation")[0].style.display = "none";
             document.getElementById("next").classList.add("disabled");
             displayQuestion();
         }
-        localStorage.setItem('points', JSON.stringify(points));
     }, { once: true });
 
+
+    function validateAnswers() {
+        const choiceInputs = document.querySelectorAll('input.choice');
+        var pointsBefore = points;
+        var pointsQuestion = 0;
+        choiceInputs.forEach(input => {
+            pointsGained = 1;
+            input.disabled = true;
+            const isSelected = input.classList.contains('selected');
+            const isAnswer = answerList.includes(input.value);
+            if (isAnswer) {
+                input.parentElement.style.color = "green";
+                input.parentElement.style.fontWeight = "650";
+                if (!isSelected) {
+                    pointsGained = 0;
+                }
+            } else {
+                if (isSelected) {
+                    input.parentElement.style.color = "red";
+                }
+                pointsGained = 0;
+            }
+            pointsQuestion += pointsGained;
+        });
+        if (pointsQuestion == answerList.length) {
+            points += 1;
+        }
+        console.log(pointsQuestion);
+        if (selectedOption === "immediate" && document.getElementById('progress-bars').style.display != "none") {
+            if (points == (pointsBefore + 1)) {
+                document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "green";
+            } else {
+                document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "red";
+            }
+        }
+        localStorage.setItem('points', JSON.stringify(points));
+    }
 
     function logAnswer() {
         var selectedAnswers = [];
@@ -178,7 +214,7 @@ function displayQuestion() {
             selectedAnswers.push(selected.value);
         });
         answersList.push({
-            "Q": questions[questionNumber],
+            "Id": questions[questionNumber],
             "Selected": selectedAnswers,
             "Correct": ((pointsGained == 1) ? true : false)
         });
@@ -195,10 +231,77 @@ function displayQuestion() {
 }
 
 function displayResults() {
-    console.log("results");
+    document.getElementById('question-holder').style.display = 'none';
+    document.getElementById('next-validate').style.display = 'none';
+    document.getElementById('home').style.float = 'right';
+
+    document.getElementById("result-percentage").innerText = Math.round((points*100) / selectedNumQuest) + "%";
+
+    answersList.forEach(question => {
+        
+        const questionResult = document.createElement("div");
+        questionResult.classList.add('question-result');
+        questionResult.id = question["Id"] + "-holder";
+
+        document.getElementById("results-holder").appendChild(questionResult);
+        
+        const questionResultQuestion = document.createElement("p");
+        questionResultQuestion.innerText = jsonData["Questions"][question["Id"]]["Q"];
+        questionResultQuestion.classList.add("question");
+
+        document.getElementById(question["Id"] + "-holder").appendChild(questionResultQuestion);
+
+        const questionResultAnswer = document.createElement("div");
+        questionResultAnswer.id = question["Id"] + "-answers";
+        questionResultAnswer.classList.add("answers");
+
+        document.getElementById(question["Id"] + "-holder").appendChild(questionResultAnswer);
+
+        const answerList = jsonData["Questions"][question["Id"]]["Answer"];
+        const choices = jsonData["Questions"][question["Id"]]["Choices"];
+        const choicesKeys = Object.keys(jsonData["Questions"][question["Id"]]["Choices"]);
+        for (const choice of choicesKeys) {
+            const choiceValue = choices[choice];
+            const questionChoice = document.createElement("input");
+            const isAnswer = answerList.includes(choice);
+            const isSelected = question["Selected"].includes(choice);
+            questionChoice.type = (answerList.length >= 2 ? "checkbox" : "radio");
+            questionChoice.disabled = true;
+
+            const label = document.createElement("label");
+            label.textContent = choiceValue;
+
+            if (isSelected) {
+                questionChoice.checked = true;
+                if (isAnswer) {
+                    label.style.color = "green";
+                    label.style.fontWeight = "650";
+                } else {
+                    label.style.color = "red";
+                }
+            } else if (isAnswer) {
+                label.style.color = "green";
+                label.style.fontWeight = "650";
+            }
+
+            label.insertBefore(questionChoice, label.firstChild);
+
+            document.getElementById(question["Id"] + "-answers").appendChild(label);
+        }
+
+        const explanation = jsonData["Questions"][question["Id"]]["Expl"];
+        if (explanation != "") {
+            const questionResultExpl = document.createElement("div");
+            questionResultExpl.classList.add("explanation");
+            questionResultExpl.innerHTML = "<b>Explication : </b>" + explanation;
+            questionResultExpl.style.display = "block";
+
+            document.getElementById(question["Id"] + "-holder").appendChild(questionResultExpl);
+        }
+    });
 }
 
 
-document.getElementById("home").addEventListener('click', function() {
+function returnhome() {
     window.location.href = "../index.html";
-});
+}
