@@ -5,12 +5,31 @@
   "description": "Quiz application",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "dist:win": "electron-builder",
+    "dist:linux": "electron-builder build --linux"
   },
-  "author": "Nolan Ben Yahya",
+  "author": "Nolan Ben Yahya <nolan.benyahya@gmail.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "electron": "^28.2.0"
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron": "^28.2.1",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.NolanBY.QYourself",
+    "mac": {
+      "category": "com.NolanBY.QYourself"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm"
+      ],
+      "category": "Utility",
+      "icon": "/assets/images/logo.png"
+    }
   }
 }
