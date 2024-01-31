@@ -10,6 +10,7 @@ var questions = JSON.parse(localStorage.getItem('questions'));
 var questionNumber = parseInt(JSON.parse(localStorage.getItem('questionNumber')));
 var points = parseInt(JSON.parse(localStorage.getItem('points')));
 var answersList = JSON.parse(localStorage.getItem('answersList'));
+var quizPath = JSON.parse(localStorage.getItem('quizPath'));
 var pointsGained;
 
 if (jsonData) {
@@ -17,28 +18,27 @@ if (jsonData) {
     const questionKeys = Object.keys(questions);
 
     if (selectedNumQuest < 20 ) {
-        const numberOfProgressSections = questionKeys.length;
+        const numberOfProgressSections = selectedNumQuest;
 
         const progressSectionWidth = `${100 / numberOfProgressSections}%`;
 
         var secNumber = 0;
 
         questionKeys.forEach(key => {
-            const progressSection = document.createElement("div");
-            progressSection.classList.add("progress-section");
-            progressSection.style.width = progressSectionWidth;
-            progressSection.dataset.value = secNumber;
-            // Vous pouvez ajouter d'autres propriétés ou du contenu à chaque section de progression si nécessaire
-            // progressSection.textContent = key; // par exemple, utiliser la clé comme texte
-            progressBarsContainer.appendChild(progressSection);
-            secNumber+=1;
+            if (secNumber != selectedNumQuest) {
+                const progressSection = document.createElement("div");
+                progressSection.classList.add("progress-section");
+                progressSection.style.width = progressSectionWidth;
+                progressSection.dataset.value = secNumber;
+                progressBarsContainer.appendChild(progressSection);
+                secNumber+=1;
+            }
         });
     } else {
         document.getElementById("progress-bars").style.display = "none";
         document.getElementById("progress-bar").style.display = "block";
     }
 } else {
-    // La clé "Questions" est absente dans jsonData ou est vide, vous pouvez gérer cela ici
     console.log("La clé 'Questions' est absente ou vide dans le fichier JSON.");
 }
 
@@ -52,12 +52,28 @@ function displayQuestion() {
     document.getElementsByClassName("answers")[0].innerHTML = '';
 
     document.getElementById("progress-bar-progress").style.width = (((questionNumber+1)*100)/selectedNumQuest) + "%";
+    document.getElementById("progress-question").innerText = (questionNumber + 1) + "/" + selectedNumQuest;
 
     document.getElementsByClassName("question")[0].innerText = jsonData["Questions"][questions[questionNumber]]["Q"];
     const choices = jsonData["Questions"][questions[questionNumber]]["Choices"];
-    const choicesKeys = Object.keys(jsonData["Questions"][questions[questionNumber]]["Choices"]);
     const answersNumber = jsonData["Questions"][questions[questionNumber]]["Answer"].length;
-    for (const choice of choicesKeys) {
+
+    document.getElementsByClassName("question-image")[0].src = "";
+
+    if (jsonData["Questions"][questions[questionNumber]]["Image"]) {
+        document.getElementsByClassName("question-image")[0].src = quizPath + jsonData["Questions"][questions[questionNumber]]["Image"];
+    }
+
+    var choicesList = [];
+
+    while (choicesList.length < Object.keys(choices).length) {
+        const randomChoiceNumber = "C" + (Math.floor(Math.random() * Object.keys(choices).length) + 1);
+        if (!choicesList.includes(randomChoiceNumber.toString())) {
+            choicesList.push(randomChoiceNumber.toString());
+        }
+    }
+
+    for (const choice of choicesList) {
         const choiceValue = choices[choice];
         const questionChoice = document.createElement("input");
         questionChoice.type = (answersNumber >= 2) ? "checkbox" : "radio";
@@ -68,7 +84,6 @@ function displayQuestion() {
         questionChoice.classList.add("choice");
         questionChoice.value = choice;
 
-        // Créer un label autour de l'input
         const label = document.createElement("label");
         label.textContent = choiceValue;
         label.classList.add("choice");
@@ -130,7 +145,10 @@ function displayQuestion() {
 
         if (selectedOption == "immediate" && explanation != "") {
             document.getElementsByClassName("explanation")[0].innerHTML = "<b>Explication : </b>" + explanation;
-            document.getElementsByClassName("explanation")[0].style.display = "block";
+            document.getElementsByClassName("explanation")[0].style.padding = "1rem";
+            document.getElementsByClassName("explanation")[0].style.marginTop = "2rem";
+            document.getElementsByClassName("explanation")[0].style.visibility = "visible";
+            document.getElementsByClassName("explanation")[0].style.opacity = "1";
         }
 
         document.getElementById("validate").classList.add("disabled");
@@ -155,7 +173,10 @@ function displayQuestion() {
             if (selectedOption == "real" && document.getElementById('progress-bars').style.display != "none") {
                 document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "blue";
             }
-            document.getElementsByClassName("explanation")[0].style.display = "none";
+            document.getElementsByClassName("explanation")[0].style.visibility = "hidden";
+            document.getElementsByClassName("explanation")[0].style.opacity = "0";
+            document.getElementsByClassName("explanation")[0].style.padding = "0";
+            document.getElementsByClassName("explanation")[0].style.marginTop = "0";
             document.getElementById("next").classList.add("disabled");
             displayResults();
         } else {
@@ -164,7 +185,10 @@ function displayQuestion() {
             }
             questionNumber += 1;
             localStorage.setItem('questionNumber', JSON.stringify(questionNumber));
-            document.getElementsByClassName("explanation")[0].style.display = "none";
+            document.getElementsByClassName("explanation")[0].style.visibility = "hidden";
+            document.getElementsByClassName("explanation")[0].style.opacity = "0";
+            document.getElementsByClassName("explanation")[0].style.padding = "0";
+            document.getElementsByClassName("explanation")[0].style.marginTop = "0";
             document.getElementById("next").classList.add("disabled");
             displayQuestion();
         }
@@ -197,7 +221,6 @@ function displayQuestion() {
         if (pointsQuestion == answerList.length) {
             points += 1;
         }
-        console.log(pointsQuestion);
         if (selectedOption === "immediate" && document.getElementById('progress-bars').style.display != "none") {
             if (points == (pointsBefore + 1)) {
                 document.getElementsByClassName('progress-section')[questionNumber].style.backgroundColor = "green";
@@ -231,6 +254,7 @@ function displayQuestion() {
 }
 
 function displayResults() {
+    document.getElementById('results-holder').style.display = 'block';
     document.getElementById('question-holder').style.display = 'none';
     document.getElementById('next-validate').style.display = 'none';
     document.getElementById('home').style.float = 'right';
@@ -245,6 +269,14 @@ function displayResults() {
 
         document.getElementById("results-holder").appendChild(questionResult);
         
+        if (jsonData["Questions"][question["Id"]]["Image"]) {
+            const questionResultImage = document.createElement("img");
+            questionResultImage.src = quizPath + jsonData["Questions"][question["Id"]]["Image"];
+            questionResultImage.classList.add("question-image");
+
+            document.getElementById(question["Id"] + "-holder").appendChild(questionResultImage);
+        }
+
         const questionResultQuestion = document.createElement("p");
         questionResultQuestion.innerText = jsonData["Questions"][question["Id"]]["Q"];
         questionResultQuestion.classList.add("question");
@@ -294,7 +326,10 @@ function displayResults() {
             const questionResultExpl = document.createElement("div");
             questionResultExpl.classList.add("explanation");
             questionResultExpl.innerHTML = "<b>Explication : </b>" + explanation;
-            questionResultExpl.style.display = "block";
+            questionResultExpl.style.visibility = "visible";
+            questionResultExpl.style.opacity = "1";
+            questionResultExpl.style.padding = "1rem";
+            questionResultExpl.style.marginTop = "2rem";
 
             document.getElementById(question["Id"] + "-holder").appendChild(questionResultExpl);
         }

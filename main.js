@@ -4,10 +4,12 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
-    icon: __dirname + '/assets/images/logo.png'
+    icon: __dirname + '/assets/images/logo.png',
+    webPreferences: { devTools: false }
   })
 
   win.loadFile('index.html')
+  win.setMenuBarVisibility(false)
 }
 
 app.whenReady().then(() => {

@@ -7,6 +7,7 @@ var questions = [];
 var questionNumber = 0;
 var points = 0;
 var answersList = [];
+var quizPath;
 
 document.getElementsByName("number-questions-select")[0].innerHTML = "<option value='select' selected='selected'>- Sélectionner -</option>";
 
@@ -84,6 +85,8 @@ function uploadFile(file) {
 
     reader.readAsText(file, 'UTF-8');
 
+    quizPath = file.path.replace(file.name, "");
+
     reader.onload = function (event) {
         jsonData = event.target.result;
         dropArea.querySelector('#file-select-title').textContent = file.name;
@@ -107,7 +110,8 @@ function uploadFile(file) {
 
 
 function createNumberQuestions() {
-    if (Object.keys(jsonData["Questions"]).length > 5) {
+    document.getElementsByName("number-questions-select")[0].innerHTML = "<option value='select' selected='selected'>- Sélectionner -</option>";
+    if (Object.keys(jsonData["Questions"]).length > 20) {
         for (let number = 10; number < Object.keys(jsonData["Questions"]).length;) {
             const questionNumberOption = document.createElement("option");
             questionNumberOption.value = number;
@@ -181,5 +185,6 @@ function startGame() {
     localStorage.setItem('points', JSON.stringify(points));
     localStorage.setItem('questionNumber', JSON.stringify(questionNumber));
     localStorage.setItem('answersList', JSON.stringify(answersList));
+    localStorage.setItem('quizPath', JSON.stringify(quizPath));
     window.location.href = "./page/question.html";
 }

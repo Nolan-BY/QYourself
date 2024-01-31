@@ -56,6 +56,15 @@ header {
     width: 3rem;
     height: 2rem;
     border-radius: 0.3rem;
+    transition-duration: 0.3s;
+}
+
+#progress-question {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 650;
+    margin-top: 0.5rem;
 }
 
 
@@ -65,6 +74,7 @@ header {
     align-content: center;
     justify-content: space-between;
     margin-top: auto;
+    margin-bottom: 1rem;
     padding: 0 1rem;
 }
 
@@ -90,15 +100,19 @@ header {
 
 
 #question-holder {
-    padding: 2rem;
-    margin: 2rem 0;
-    height: 20rem;
-    min-height: 20rem;
+    margin: 2rem;
+    height: fit-content;
 }
 
 .question {
     font-size: 1.1rem;
     font-weight: 600;
+    max-width: 90%;
+}
+
+.question-image {
+    max-width: 25rem;
+    margin-bottom: 1rem;
 }
 
 input[type="checkbox"] {
@@ -116,22 +130,24 @@ input[type="checkbox"] {
 .choice {
     cursor: pointer;
     width: fit-content;
+    max-width: 80%;
 }
 
 
 
 .explanation {
-    margin-top: 2rem;
+    margin-top: 0;
     max-width: 50rem;
-    padding: 1rem;
+    padding: 0;
     font-size: 1rem;
     font-weight: 500;
     color: #1d39b3;
     background-color: #0011ff50;
     border: solid 0.2rem #1d39b3;
     border-radius: 0.5rem;
-    overflow: hidden;
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, padding 0s, margin 0s, opacity 0.3s linear;
 }
 
 
@@ -139,12 +155,12 @@ input[type="checkbox"] {
     display: grid;
     grid-auto-flow: row;
     padding: 2rem;
+    display: none;
 }
 
 .question-result {
-    border-bottom: solid black 0.2rem;
+    border-bottom: solid black 0.15rem;
     padding: 2rem;
-    margin-bottom: 2rem;
 }
 
 
