@@ -13,7 +13,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "update-electron-app": "^3.0.0"
+    "electron-updater": "^6.1.7"
   },
   "devDependencies": {
     "electron": "^28.2.1",
