@@ -1,7 +1,7 @@
 @font-face {
 	font-family: Montserrat;
 	font-weight: 400 800;
-	src: url(/assets/fonts/Montserrat-VariableFont_wght.ttf);
+	src: url(../assets/fonts/Montserrat-VariableFont_wght.ttf);
 }
 
 html {
