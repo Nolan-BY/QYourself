@@ -38,7 +38,8 @@
       "icon": "/assets/images/logo.png"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "/assets/images/logo.ico"
     },
     "directories": {
       "output": "dist"

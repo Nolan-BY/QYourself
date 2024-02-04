@@ -1,8 +1,6 @@
 const { app, BrowserWindow, globalShortcut } = require('electron')
 const { autoUpdater, AppUpdater  } = require("electron-updater")
 
-require('update-electron-app')()
-
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
