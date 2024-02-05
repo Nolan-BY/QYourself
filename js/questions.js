@@ -54,13 +54,15 @@ function displayQuestion() {
     document.getElementById("progress-bar-progress").style.width = (((questionNumber+1)*100)/selectedNumQuest) + "%";
     document.getElementById("progress-question").innerText = (questionNumber + 1) + "/" + selectedNumQuest;
 
-    document.getElementsByClassName("question")[0].innerText = jsonData["Questions"][questions[questionNumber]]["Q"];
+    document.getElementsByClassName("question")[0].innerHTML = jsonData["Questions"][questions[questionNumber]]["Q"];
     const choices = jsonData["Questions"][questions[questionNumber]]["Choices"];
     const answersNumber = jsonData["Questions"][questions[questionNumber]]["Answer"].length;
 
     document.getElementsByClassName("question-image")[0].src = "";
 
-    if (jsonData["Questions"][questions[questionNumber]]["Image"]) {
+    const image = jsonData["Questions"][questions[questionNumber]]["Image"];
+
+    if (image && image != "") {
         document.getElementsByClassName("question-image")[0].src = quizPath + jsonData["Questions"][questions[questionNumber]]["Image"];
     }
 
@@ -268,17 +270,19 @@ function displayResults() {
         questionResult.id = question["Id"] + "-holder";
 
         document.getElementById("results-holder").appendChild(questionResult);
+
+        const image = jsonData["Questions"][question["Id"]]["Image"];
         
-        if (jsonData["Questions"][question["Id"]]["Image"]) {
+        if (image && image != "") {
             const questionResultImage = document.createElement("img");
-            questionResultImage.src = quizPath + jsonData["Questions"][question["Id"]]["Image"];
+            questionResultImage.src = quizPath + image;
             questionResultImage.classList.add("question-image");
 
             document.getElementById(question["Id"] + "-holder").appendChild(questionResultImage);
         }
 
         const questionResultQuestion = document.createElement("p");
-        questionResultQuestion.innerText = jsonData["Questions"][question["Id"]]["Q"];
+        questionResultQuestion.innerHTML = jsonData["Questions"][question["Id"]]["Q"];
         questionResultQuestion.classList.add("question");
 
         document.getElementById(question["Id"] + "-holder").appendChild(questionResultQuestion);
