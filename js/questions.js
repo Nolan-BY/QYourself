@@ -56,7 +56,14 @@ function displayQuestion() {
 
     document.getElementsByClassName("question")[0].innerHTML = jsonData["Questions"][questions[questionNumber]]["Q"];
     const choices = jsonData["Questions"][questions[questionNumber]]["Choices"];
-    const answersNumber = jsonData["Questions"][questions[questionNumber]]["Answer"].length;
+    var answersNumber = 0;
+    var questionType = "";
+
+    // if (jsonData["Questions"][questions[questionNumber]]["Answer"].constructor == Object) {
+    //     questionType = "drag";
+    // } else {
+        answersNumber = jsonData["Questions"][questions[questionNumber]]["Answer"].length;
+    // }
 
     document.getElementsByClassName("question-image")[0].src = "";
 
@@ -87,7 +94,7 @@ function displayQuestion() {
         questionChoice.value = choice;
 
         const label = document.createElement("label");
-        label.textContent = choiceValue;
+        label.innerHTML = " " + choiceValue;
         label.classList.add("choice");
         label.insertBefore(questionChoice, label.firstChild);
         document.getElementsByClassName("answers")[0].appendChild(label);
@@ -145,7 +152,7 @@ function displayQuestion() {
     validate.addEventListener('click', function() {
         validateAnswers();
 
-        if (selectedOption == "immediate" && explanation != "") {
+        if (selectedOption == "immediate" && explanation && explanation != "") {
             document.getElementsByClassName("explanation")[0].innerHTML = "<b>Explication : </b>" + explanation;
             document.getElementsByClassName("explanation")[0].style.padding = "1rem";
             document.getElementsByClassName("explanation")[0].style.marginTop = "2rem";
@@ -305,7 +312,7 @@ function displayResults() {
             questionChoice.disabled = true;
 
             const label = document.createElement("label");
-            label.textContent = choiceValue;
+            label.innerHTML = " " + choiceValue;
 
             if (isSelected) {
                 questionChoice.checked = true;
@@ -326,7 +333,7 @@ function displayResults() {
         }
 
         const explanation = jsonData["Questions"][question["Id"]]["Expl"];
-        if (explanation != "") {
+        if (explanation && explanation != "") {
             const questionResultExpl = document.createElement("div");
             questionResultExpl.classList.add("explanation");
             questionResultExpl.innerHTML = "<b>Explication : </b>" + explanation;
@@ -338,6 +345,8 @@ function displayResults() {
             document.getElementById(question["Id"] + "-holder").appendChild(questionResultExpl);
         }
     });
+
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
 
 

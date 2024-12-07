@@ -1,7 +1,7 @@
 {
   "name": "qyourself",
   "productName": "QYourself",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quiz application",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "dist:win": "electron-builder",
     "dist:linux": "electron-builder build --linux"
   },
-  "author": "Nolan Ben Yahya <nolan.benyahya@gmail.com>",
+  "author": "Nolan Ben Yahya <nolan.by@pm.me>",
   "license": "GPL-3.0",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "electron": "^28.2.1",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^24.12.0"
   },
   "repository": "https://github.com/Nolan-BY/QYourself",
   "publish": {
