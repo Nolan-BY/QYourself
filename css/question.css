@@ -133,6 +133,7 @@ input[type="radio"] {
 }
 
 .choice {
+    display: inline-block;
     cursor: pointer;
     width: fit-content;
     max-width: 80%;
@@ -188,5 +189,6 @@ code {
     font-weight: 900;
     background-color: #e5e5e5;
     padding: 0.2rem 0.5rem;
-    margin: 0 0.2rem;
+    margin: 0 0.3rem;
+    display: inline-block;
 }
