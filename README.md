@@ -2,6 +2,7 @@
 
 Bienvenue sur **QYourself**, une application de quiz personnalisés développée avec ElectronJS. Cette application vous permet de créer et de réaliser des quiz personnalisés en utilisant des fichiers JSON au format spécifique.
 
+
 ## Fonctionnalités
 
 - **Quiz personnalisés** : Chargez vos propres fichiers JSON pour créer des quiz adaptés à vos besoins.
@@ -10,6 +11,7 @@ Bienvenue sur **QYourself**, une application de quiz personnalisés développée
   - *Test Réel* : Recevez vos résultats à la fin du quiz.
 - **Support multimédia** : Intégrez des images dans vos questions pour une expérience enrichie.
 - **Compatibilité multiplateforme** : Disponible pour Windows (`.exe`) et Linux (`.deb`).
+
 
 ## Installation
 
@@ -29,6 +31,7 @@ Bienvenue sur **QYourself**, une application de quiz personnalisés développée
 
    Remplacez `x.x.x` par le numéro de version correspondant.
 
+
 ## Utilisation
 
 1. **Lancement de l'application** : Ouvrez QYourself depuis votre menu d'applications ou en exécutant la commande `qyourself` dans le terminal.
@@ -44,6 +47,7 @@ Bienvenue sur **QYourself**, une application de quiz personnalisés développée
    - En mode *Résultat Immédiat*, cliquez sur "Valider" pour vérifier votre réponse avant de passer à la suivante.
    - En mode *Test Réel*, répondez à toutes les questions puis cliquez sur "Suivant" pour avancer.
 6. **Résultats** : À la fin du quiz, consultez votre score et les explications pour chaque question.
+
 
 ## Format du fichier JSON
 
@@ -89,10 +93,42 @@ Pour que QYourself puisse lire et interpréter correctement vos quiz, vos fichie
   - `Expl` : Explication de la réponse correcte. Peut inclure du HTML pour le formatage.
   - `Image` : Nom du fichier image associé à la question (si applicable). L'image doit être placée dans le même dossier que le fichier JSON.
 
-**Remarques** :
+### Balises HTML utilisables dans les questions
+
+QYourself supporte certaines balises HTML dans les questions (`Q`), les choix (`Choices`), et les explications (`Expl`). Voici les balises les plus courantes que vous pouvez utiliser :
+
+- `<br>` : Saut de ligne.
+- `<code>` : Affichage de texte en style code.
+- `<b>` : Texte en gras.
+- `<ul>` et `<li>` : Liste à puces.
+- `<ol>` et `<li>` : Liste numérotée.
+
+**Exemple :**
+
+```json
+{
+    "Questions": {
+        "1": {
+            "Q": "Your router is configured as follows:<br><code>R1# show run | i aaa|username<br>aaa new-model<br>username ENARSI password 0 EXAM<br>R1# show run | s vty<br>line vty 0 4<br>password cisco<br>transport input all<br>R1#</code><br>Based on the configuration, what will occur when someone uses Telnet to reach the router?",
+            "Choices": {
+                "C1": "<code>aaa authentication login default group radius local</code>",
+                "C2": "<code>aaa authentication login<br>default group radius local</code>",
+                "C3": "The user will be <code>required to use the username ENARSI</code> with the password EXAM",
+                "C4": "The user will be <code>required to use the username ENARSI</code><br>with the password EXAM"
+            },
+            "Answer": ["C3", "C4"],
+            "Expl": "The <code>show cef interface</code> command is used to verify that<ul><li>CEF is enabled on an interface</li><li>When uRPF is <code>configured on an interface</code>, the correct mode should be chosen.</li></ul>If strict mode is used when asymmetric routing occurs, <code>the legitimate<br>traffic is dropped</code><br>Where asymmetric routing might occur<ol><li>uRPF should be configured with loose mode</li><li>and where symmetric routing is guaranteed to occur</li>/ol>the strict mode <b>should be used</b>. On router interfaces that connect to subnets with end stations, strict mode is typically used, and on uplinks, loose mode is typically used."
+        }
+    }
+}
+```
+
+### Remarques :
 
 - Les fichiers JSON doivent être encodés en UTF-8.
+- Les balises HTML doivent être correctement fermées et adaptées à l'affichage du contenu du quiz.
 - Les champs `Expl` et `Image` sont facultatifs, mais recommandés pour une meilleure expérience utilisateur.
+
 
 ## Développement
 
@@ -110,6 +146,7 @@ QYourself est développé en utilisant [Electron](https://www.electronjs.org/), 
 
 - `startnconfig.js` : Gère le chargement des fichiers JSON, la configuration du quiz et le démarrage du jeu.
 - `questions.js` : Gère l'affichage des questions, la validation des réponses et l'affichage des résultats.
+
 
 ## Licence
 
