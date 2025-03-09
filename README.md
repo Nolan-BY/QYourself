@@ -152,7 +152,3 @@ QYourself est développé en utilisant [Electron](https://www.electronjs.org/), 
 ## Licence
 
 Ce projet est sous licence [GPL-3.0](https://github.com/Nolan-BY/QYourself/blob/main/LICENSE).
-
----
-
-Merci d'utiliser QYourself ! Nous espérons que cette application vous aidera à créer et à profiter de quiz personnalisés adaptés à vos besoins.
