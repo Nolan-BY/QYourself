@@ -127,6 +127,7 @@ QYourself supporte certaines balises HTML dans les questions (`Q`), les choix (`
 
 - Les fichiers JSON doivent être encodés en UTF-8.
 - Les balises HTML doivent être correctement fermées et adaptées à l'affichage du contenu du quiz.
+- Vous pouvez utiliser les balises `br` dans les balises `code` pour un effet terminal.
 - Les champs `Expl` et `Image` sont facultatifs, mais recommandés pour une meilleure expérience utilisateur.
 
 
